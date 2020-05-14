@@ -8,7 +8,7 @@ Movie buddy Alexa Skill
 Concepts
 --------
 
-Alexa skill to tell you moviue plot
+Alexa skill to tell you movie plot
 
 
 
