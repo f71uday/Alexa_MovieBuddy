@@ -11,7 +11,7 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.amazon.ask.howto.utils;
+package io.github.f71uday.utils;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 
@@ -22,6 +22,6 @@ public class SkillUtils {
 
     public static ResourceBundle getResourceBundle(HandlerInput handlerInput, String bundleName) {
         final Locale locale = new Locale(handlerInput.getRequestEnvelope().getRequest().getLocale());
-        return ResourceBundle.getBundle(bundleName, locale);
+        return ResourceBundle.getBundle(bundleName,locale);
     }
 }

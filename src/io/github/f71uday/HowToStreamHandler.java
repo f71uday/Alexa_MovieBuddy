@@ -11,18 +11,19 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.amazon.ask.howto;
+package io.github.f71uday;
 
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
 import com.amazon.ask.Skills;
-import com.amazon.ask.howto.handlers.ErrorHandler;
-import com.amazon.ask.howto.handlers.ExitIntentHandler;
-import com.amazon.ask.howto.handlers.HelpIntentHandler;
-import com.amazon.ask.howto.handlers.LaunchHandler;
-import com.amazon.ask.howto.handlers.RecipeIntentHandler;
-import com.amazon.ask.howto.handlers.RepeatIntentHandler;
-import com.amazon.ask.howto.handlers.SessionEndedHandler;
+
+import io.github.f71uday.handlers.ErrorHandler;
+import io.github.f71uday.handlers.ExitIntentHandler;
+import io.github.f71uday.handlers.HelpIntentHandler;
+import io.github.f71uday.handlers.LaunchHandler;
+import io.github.f71uday.handlers.PlotIntentHandler;
+import io.github.f71uday.handlers.RepeatIntentHandler;
+import io.github.f71uday.handlers.SessionEndedHandler;
 
 public class HowToStreamHandler extends SkillStreamHandler {
 
@@ -31,7 +32,7 @@ public class HowToStreamHandler extends SkillStreamHandler {
                 .addRequestHandlers(
                         new LaunchHandler(),
                         new HelpIntentHandler(),
-                        new RecipeIntentHandler(),
+                        new PlotIntentHandler(),
                         new RepeatIntentHandler(),
                         new ExitIntentHandler(),
                         new ErrorHandler(),

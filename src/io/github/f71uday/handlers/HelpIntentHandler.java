@@ -11,13 +11,14 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.amazon.ask.howto.handlers;
+package io.github.f71uday.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
-import com.amazon.ask.howto.utils.SkillUtils;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
+
+import io.github.f71uday.utils.SkillUtils;
 
 import java.util.Map;
 import java.util.Optional;
@@ -33,9 +34,9 @@ public class HelpIntentHandler implements IntentRequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
         final ResourceBundle messages = SkillUtils.getResourceBundle(handlerInput, "Messages");
-        final String item = SkillUtils.getResourceBundle(handlerInput, "Recipes").getKeys().nextElement();
-        final String speechText = String.format(messages.getString("HELP_MESSAGE"), item);
-        final String repromptText = String.format(messages.getString("HELP_REPROMPT"), item);
+       
+        final String speechText = String.format(messages.getString("HELP_MESSAGE"));
+        final String repromptText = String.format(messages.getString("HELP_REPROMPT"));
         final Map<String, Object> sessionAttributes = handlerInput.getAttributesManager().getSessionAttributes();
         sessionAttributes.put("speakOutput", speechText);
         sessionAttributes.put("repromptSpeech", repromptText);

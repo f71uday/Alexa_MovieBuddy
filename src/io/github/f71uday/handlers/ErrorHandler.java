@@ -11,26 +11,27 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.amazon.ask.howto.handlers;
+package io.github.f71uday.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazon.ask.dispatcher.request.handler.impl.SessionEndedRequestHandler;
+import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
-import com.amazon.ask.model.SessionEndedRequest;
 
 import java.util.Optional;
 
-public class SessionEndedHandler implements SessionEndedRequestHandler {
+public class ErrorHandler implements RequestHandler {
 
     @Override
-    public boolean canHandle(HandlerInput input, SessionEndedRequest request) {
+    public boolean canHandle(HandlerInput handlerInput) {
         return true;
     }
 
-
     @Override
-    public Optional<Response> handle(HandlerInput handlerInput, SessionEndedRequest request) {
-        // any cleanup logic goes here
-        return handlerInput.getResponseBuilder().build();
+    public Optional<Response> handle(HandlerInput handlerInput) {
+        final String speechOutput = "Sorry, I can't understand the command. Please say again.";
+        return handlerInput.getResponseBuilder()
+                .withSpeech(speechOutput)
+                .withReprompt(speechOutput)
+                .build();
     }
 }

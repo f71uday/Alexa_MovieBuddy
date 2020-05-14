@@ -11,30 +11,34 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.amazon.ask.howto.handlers;
+package io.github.f71uday.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
-import com.amazon.ask.howto.utils.SkillUtils;
-import com.amazon.ask.model.IntentRequest;
+import com.amazon.ask.dispatcher.request.handler.impl.LaunchRequestHandler;
+import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
+
+import io.github.f71uday.utils.SkillUtils;
 
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ExitIntentHandler implements IntentRequestHandler {
+public class LaunchHandler implements LaunchRequestHandler {
 
     @Override
-    public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
-        return intentRequest.getIntent().getName().equals("AMAZON.StopIntent") ||
-                intentRequest.getIntent().getName().equals("AMAZON.CancelIntent");
+    public boolean canHandle(HandlerInput handlerInput, LaunchRequest launchRequest) {
+        return true;
     }
 
     @Override
-    public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
+    public Optional<Response> handle(HandlerInput handlerInput, LaunchRequest launchRequest) {
         final ResourceBundle messages = SkillUtils.getResourceBundle(handlerInput, "Messages");
+       
+        final String speechText = String.format(messages.getString("WELCOME_MESSAGE"), messages.getString("SKILL_NAME"));
+        final String repromptText = messages.getString("WELCOME_REPROMPT");
         return handlerInput.getResponseBuilder()
-                .withSpeech(messages.getString("STOP_MESSAGE"))
+                .withSpeech(speechText)
+                .withReprompt(repromptText)
                 .build();
     }
 }

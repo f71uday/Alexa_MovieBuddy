@@ -11,29 +11,31 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.amazon.ask.howto.handlers;
+package io.github.f71uday.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 
-import java.util.Map;
-import java.util.Optional;
+import io.github.f71uday.utils.SkillUtils;
 
-public class RepeatIntentHandler implements IntentRequestHandler {
+import java.util.Optional;
+import java.util.ResourceBundle;
+
+public class ExitIntentHandler implements IntentRequestHandler {
 
     @Override
-    public boolean canHandle(HandlerInput input, IntentRequest intentRequest) {
-        return intentRequest.getIntent().getName().equals("AMAZON.RepeatIntent");
+    public boolean canHandle(HandlerInput handlerInput, IntentRequest intentRequest) {
+        return intentRequest.getIntent().getName().equals("AMAZON.StopIntent") ||
+                intentRequest.getIntent().getName().equals("AMAZON.CancelIntent");
     }
 
     @Override
     public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
-        final Map<String, Object> sessionAttributes = handlerInput.getAttributesManager().getSessionAttributes();
+        final ResourceBundle messages = SkillUtils.getResourceBundle(handlerInput, "Messages");
         return handlerInput.getResponseBuilder()
-                .withSpeech(String.valueOf(sessionAttributes.get("speakOutput")))
-                .withReprompt(String.valueOf(sessionAttributes.get("repromptSpeech")))
+                .withSpeech(messages.getString("STOP_MESSAGE"))
                 .build();
     }
 }

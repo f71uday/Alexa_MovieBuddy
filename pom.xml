@@ -17,8 +17,8 @@
     </licenses>
     <developers>
         <developer>
-            <name>Alexa Skills Kit</name>
-            <email>ask-sdk-java@amazon.com</email>
+            <name>Uday Singh</name>
+            <email>f71uday@gmail.com</email>
             <organization>Alexa</organization>
             <organizationUrl>http://developer.amazon.com/ask</organizationUrl>
         </developer>
@@ -35,6 +35,17 @@
             <artifactId>ask-sdk</artifactId>
             <version>2.16.0</version>
         </dependency>
+        		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>4.5.10</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.10.0</version>
+		</dependency>
     </dependencies>
     <build>
         <sourceDirectory>src</sourceDirectory>
@@ -55,9 +66,6 @@
         <resources>
             <resource>
                 <directory>src/resources/messages</directory>
-            </resource>
-            <resource>
-                <directory>src/resources/recipes</directory>
             </resource>
         </resources>
     </build>

@@ -11,57 +11,63 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package com.amazon.ask.howto.handlers;
+package io.github.f71uday.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.impl.IntentRequestHandler;
-import com.amazon.ask.howto.utils.SkillUtils;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
+
+import io.github.f71uday.OMDB.OpenDBAPIFetch;
+import io.github.f71uday.utils.SkillUtils;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class RecipeIntentHandler implements IntentRequestHandler {
+import org.omg.CORBA.OMGVMCID;
+
+public class PlotIntentHandler implements IntentRequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input, IntentRequest intentRequest) {
-        return intentRequest.getIntent().getName().equals("RecipeIntent");
+        return intentRequest.getIntent().getName().equals("PlotIntent");
     }
 
     @Override
     public Optional<Response> handle(HandlerInput handlerInput, IntentRequest intentRequest) {
-        String itemName = "";
+        String movieName = "";
         final ResourceBundle messages = SkillUtils.getResourceBundle(handlerInput, "Messages");
-        final ResourceBundle recipes = SkillUtils.getResourceBundle(handlerInput, "Recipes");
-        final Slot itemSlot = intentRequest.getIntent().getSlots().get("Item");
-        if (itemSlot != null
-                && itemSlot.getResolutions() != null
-                && itemSlot.getResolutions().toString().contains("ER_SUCCESS_MATCH")) {
-            itemName = itemSlot.getValue().toLowerCase();
+        
+        final Slot itemSlot = intentRequest.getIntent().getSlots().get("movie");
+        if (itemSlot != null)
+         {
+            movieName = itemSlot.getValue().toLowerCase();
         }
-        final String cardTitle = String.format(messages.getString("DISPLAY_CARD_TITLE"), messages.getString("SKILL_NAME"), itemName);
-        final String recipeKey = itemName.replaceAll(" ", "_");
-        final String recipe = recipes.getString(recipeKey);
-        if (recipe != null && !recipe.isEmpty()) {
+        System.out.println(movieName);
+        
+        final String cardTitle = String.format(messages.getString("DISPLAY_CARD_TITLE"), messages.getString("SKILL_NAME"), movieName);
+        final String plotKey = movieName.replaceAll(" ", "_");
+        OpenDBAPIFetch openDBAPIFetch = new OpenDBAPIFetch();
+        final String plot = openDBAPIFetch.fetchMovieDetails(movieName);
+        if (plot != null && !plot.isEmpty()) {
             // uncomment the reprompt lines if you want to repeat the info
             // and prompt for a subsequent action
-            // sessionAttributes.put("repromptSpeech", messages.getString("RECIPE_REPEAT_MESSAGE"));
+            // sessionAttributes.put("repromptSpeech", messages.getString("plot_REPEAT_MESSAGE"));
             final Map<String, Object> sessionAttributes = handlerInput.getAttributesManager().getSessionAttributes();
-            sessionAttributes.put("speakOutput", recipe);
+            sessionAttributes.put("speakOutput", plot);
             return handlerInput.getResponseBuilder()
-                    .withSimpleCard(cardTitle, recipe)
-                    .withSpeech(recipe)
+                    .withSimpleCard(cardTitle, plot)
+                    .withSpeech(plot)
                     .build();
         }
-        final String repromptSpeech = messages.getString("RECIPE_NOT_FOUND_REPROMPT");
+        final String repromptSpeech = messages.getString("plot_NOT_FOUND_REPROMPT");
         String speakOutput = "";
-        if (itemName != null && !itemName.isEmpty()) {
-            speakOutput += String.format(messages.getString("RECIPE_NOT_FOUND_WITH_ITEM_NAME"), itemName);
+        if (movieName != null && !movieName.isEmpty()) {
+            speakOutput += String.format(messages.getString("plot_NOT_FOUND_WITH_ITEM_NAME"), movieName);
         } else {
-            speakOutput += messages.getString("RECIPE_NOT_FOUND_WITHOUT_ITEM_NAME");
+            speakOutput += messages.getString("plot_NOT_FOUND_WITHOUT_ITEM_NAME");
         }
         speakOutput += repromptSpeech;
         return handlerInput.getResponseBuilder()
